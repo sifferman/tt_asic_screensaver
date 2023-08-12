@@ -45,4 +45,3 @@ async def test_7seg(dut):
         dut._log.info("check segment {}".format(i))
         await ClockCycles(dut.clk, max_count)
         assert int(dut.segments.value) == segments[i % 10]
-

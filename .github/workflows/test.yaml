@@ -16,7 +16,7 @@ jobs:
       with:
           python-override: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
-    - run: | 
+    - run: |
         yosys --version
         iverilog -V
         cocotb-config --libpython
@@ -36,4 +36,3 @@ jobs:
       with:
           name: test-vcd
           path: src/tb.vcd
-
