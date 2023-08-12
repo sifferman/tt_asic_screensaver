@@ -1,0 +1,3 @@
+[submodule "src/fpga_screensaver"]
+	path = src/fpga_screensaver
+	url = git@github.com:sifferman/fpga_screensaver.git
