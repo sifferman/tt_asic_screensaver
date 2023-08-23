@@ -7,9 +7,10 @@ project:
 # Source files must be in ./src and you must list each source file separately
   source_files:
     - tt_um_asic_screensaver.v
-    - fpga_screensaver/rtl/top.sv
-    - fpga_screensaver/rtl/image.sv
-    - fpga_screensaver/rtl/video_timer.sv
+    - sv2v.v
+    # - fpga_screensaver/rtl/top.sv
+    # - fpga_screensaver/rtl/image.sv
+    # - fpga_screensaver/rtl/video_timer.sv
   top_module:  "tt_um_asic_screensaver"      # put the name of your top module here, make it unique by prepending your github username
 
 # How many tiles your design occupies? A single tile is about 167x108 uM.
@@ -72,5 +73,5 @@ documentation:
   external_hw:  "VGA Port with DAC" # Describe any external hardware needed
   discord:      "sifferman"         # Your discord handle, used for communication and automatically assigning tapeout role after a submission
   doc_link:     ""                  # URL to longer form documentation, eg the README.md in your repository
-  clock_hz:     25175000            # Clock frequency in Hz (if required)
+  clock_hz:     10000000            # Clock frequency in Hz (if required)
   picture:      ""                  # relative path to a picture in your repository (must be 512kb or less)
