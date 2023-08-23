@@ -17,8 +17,11 @@ wire rst = !rst_n;
 wire hsync, vsync;
 wire [3:0] r, g, b;
 
-assign uo_out = {hsync, vsync, r};
-assign uio_out = {g, b};
+// assign uo_out = {hsync, vsync, r};
+// assign uio_out = {g, b};
+
+assign uo_out = 0;
+assign uio_out = 0;
 
 assign uio_oe = -1;
 
