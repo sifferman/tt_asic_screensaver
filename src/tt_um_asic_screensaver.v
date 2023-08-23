@@ -17,14 +17,15 @@ wire rst = !rst_n;
 wire hsync, vsync;
 wire [3:0] r, g, b;
 
-assign {uo_out, uio_out} = {hsync, vsync, r, g, b};
+assign uo_out = {hsync, vsync, r};
+assign uio_out = {g, b};
 
 assign uio_oe = -1;
 
-top #(.IMAGE_SELECT(2)) screensaver (
-    .clk_25_175(clk_25_175), .rst(rst),
-    .hsync(hsync), .vsync(vsync),
-    .r(r), .g(g), .b(b)
-);
+// top #(.IMAGE_SELECT(2)) screensaver (
+//     .clk_25_175(clk_25_175), .rst(rst),
+//     .hsync(hsync), .vsync(vsync),
+//     .r(r), .g(g), .b(b)
+// );
 
 endmodule
