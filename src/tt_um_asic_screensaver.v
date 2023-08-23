@@ -20,18 +20,12 @@ wire [3:0] r, g, b;
 assign uo_out = {hsync, vsync, r};
 assign uio_out = {g, b};
 
-assign hsync = 0;
-assign vsync = 0;
-assign r = 0;
-assign g = 0;
-assign b = 0;
-
 assign uio_oe = -1;
 
-// top #(.IMAGE_SELECT(2)) screensaver (
-//     .clk_25_175(clk_25_175), .rst(rst),
-//     .hsync(hsync), .vsync(vsync),
-//     .r(r), .g(g), .b(b)
-// );
+top #(.IMAGE_SELECT(2)) screensaver (
+    .clk_25_175(clk_25_175), .rst(rst),
+    .hsync(hsync), .vsync(vsync),
+    .r(r), .g(g), .b(b)
+);
 
 endmodule
