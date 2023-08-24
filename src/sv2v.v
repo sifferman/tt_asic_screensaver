@@ -88,13 +88,13 @@ module image (
 	localparam BOX_WIDTH = 100;
 	reg [$clog2(SCREEN_WIDTH):0] box_x;
 	reg [$clog2(SCREEN_WIDTH):0] box_xv;
-	reg [$clog2(SCREEN_WIDTH):0] box_x_next;
+	wire [$clog2(SCREEN_WIDTH):0] box_x_next;
 	reg [$clog2(SCREEN_WIDTH):0] box_xv_next;
 	wire [$clog2(SCREEN_WIDTH):0] box_x_trajectory;
 	reg [$clog2(SCREEN_HEIGHT):0] box_y;
 	reg [$clog2(SCREEN_HEIGHT):0] box_yv;
 	wire [$clog2(SCREEN_HEIGHT):0] box_y_next;
-	wire [$clog2(SCREEN_HEIGHT):0] box_yv_next;
+	reg [$clog2(SCREEN_HEIGHT):0] box_yv_next;
 	wire [$clog2(SCREEN_HEIGHT):0] box_y_trajectory;
 	wire hit_v_edge = ($signed(box_x_trajectory) < 0) || ($signed(box_x_trajectory) >= (SCREEN_WIDTH - BOX_WIDTH));
 	wire hit_h_edge = ($signed(box_y_trajectory) < 0) || ($signed(box_y_trajectory) >= (SCREEN_HEIGHT - BOX_HEIGHT));
