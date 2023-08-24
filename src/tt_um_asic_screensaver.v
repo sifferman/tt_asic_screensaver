@@ -22,7 +22,7 @@ assign uio_out = {g, b};
 
 assign uio_oe = -1;
 
-top #(.IMAGE_SELECT(2)) screensaver (
+top screensaver (
     .clk_25_175(clk_25_175), .rst(rst),
     .hsync(hsync), .vsync(vsync),
     .r(r), .g(g), .b(b)

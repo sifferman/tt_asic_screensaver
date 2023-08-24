@@ -7,7 +7,6 @@ module top (
 	g,
 	b
 );
-	parameter IMAGE_SELECT = 0;
 	input clk_25_175;
 	input rst;
 	output wire hsync;
@@ -48,29 +47,18 @@ module top (
 		.position_y_NEXT(position_y_NEXT),
 		.frame(frame)
 	);
-	// assign hsync = 0;
-	// assign vsync = 0;
-	// assign visible = 0;
-	// assign position_x = 0;
-	// assign position_x_NEXT = 0;
-	// assign position_y = 0;
-	// assign position_y_NEXT = 0;
-	// assign frame = 0;
-	// image #(.SELECT(IMAGE_SELECT)) im(
-	// 	.clk(clk_25_175),
-	// 	.rst(rst),
-	// 	.position_x(position_x),
-	// 	.position_x_next(position_x_NEXT),
-	// 	.position_y(position_y),
-	// 	.position_y_next(position_y_NEXT),
-	// 	.frame(frame),
-	// 	.r(im_r),
-	// 	.g(im_g),
-	// 	.b(im_b)
-	// );
-	assign im_r = 0;
-	assign im_g = 0;
-	assign im_b = 0;
+	image im(
+		.clk(clk_25_175),
+		.rst(rst),
+		.position_x(position_x),
+		.position_x_next(position_x_NEXT),
+		.position_y(position_y),
+		.position_y_next(position_y_NEXT),
+		.frame(frame),
+		.r(im_r),
+		.g(im_g),
+		.b(im_b)
+	);
 endmodule
 module image (
 	clk,
@@ -84,7 +72,6 @@ module image (
 	g,
 	b
 );
-	parameter SELECT = 0;
 	parameter SCREEN_WIDTH = 640;
 	parameter SCREEN_HEIGHT = 480;
 	input clk;
@@ -109,15 +96,15 @@ module image (
 	wire [$clog2(SCREEN_HEIGHT):0] box_y_next;
 	wire [$clog2(SCREEN_HEIGHT):0] box_yv_next;
 	wire [$clog2(SCREEN_HEIGHT):0] box_y_trajectory;
-	wire hit_v_edge = ($signed(box_x_trajectory) < 0) || ($signed(box_x_trajectory) >= (SCREEN_WIDTH - BOX_WIDTH));
-	wire hit_h_edge = ($signed(box_y_trajectory) < 0) || ($signed(box_y_trajectory) >= (SCREEN_HEIGHT - BOX_HEIGHT));
+	wire hit_v_edge = ((box_x_trajectory) < 0) || ((box_x_trajectory) >= (SCREEN_WIDTH - BOX_WIDTH));
+	wire hit_h_edge = ((box_y_trajectory) < 0) || ((box_y_trajectory) >= (SCREEN_HEIGHT - BOX_HEIGHT));
 	assign box_x_trajectory = box_x + box_xv;
 	assign box_y_trajectory = box_y + box_yv;
-	assign box_x_next = ($signed(0) > $signed(box_x_trajectory) ? 0 : ($signed(SCREEN_WIDTH - BOX_WIDTH) < $signed(box_x_trajectory) ? SCREEN_WIDTH - BOX_WIDTH : box_x_trajectory));
-	assign box_y_next = ($signed(0) > $signed(box_y_trajectory) ? 0 : ($signed(SCREEN_HEIGHT - BOX_HEIGHT) < $signed(box_y_trajectory) ? SCREEN_HEIGHT - BOX_HEIGHT : box_y_trajectory));
+	assign box_x_next = ((0) > (box_x_trajectory) ? 0 : ((SCREEN_WIDTH - BOX_WIDTH) < (box_x_trajectory) ? SCREEN_WIDTH - BOX_WIDTH : box_x_trajectory));
+	assign box_y_next = ((0) > (box_y_trajectory) ? 0 : ((SCREEN_HEIGHT - BOX_HEIGHT) < (box_y_trajectory) ? SCREEN_HEIGHT - BOX_HEIGHT : box_y_trajectory));
 	assign box_xv_next = (hit_v_edge ? ~box_xv + 1 : box_xv);
 	assign box_yv_next = (hit_h_edge ? ~box_yv + 1 : box_yv);
-	wire in_box = (($signed(box_x) <= $unsigned(position_x)) && ($unsigned(position_x) < ($signed(box_x) + BOX_WIDTH))) && (($signed(box_y) <= $unsigned(position_y)) && ($unsigned(position_y) < ($signed(box_y) + BOX_HEIGHT)));
+	wire in_box = (((box_x) <= (position_x)) && ((position_x) < ((box_x) + BOX_WIDTH))) && (((box_y) <= (position_y)) && ((position_y) < ((box_y) + BOX_HEIGHT)));
 	wire [3:0] lightness = {{3 {in_box}}, 1'b1};
 	reg [2:0] color;
 	wire [2:0] color_next;
