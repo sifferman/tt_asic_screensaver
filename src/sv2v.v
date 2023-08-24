@@ -97,15 +97,15 @@ module image (
 	wire [$clog2(SCREEN_HEIGHT):0] box_y_next;
 	wire [$clog2(SCREEN_HEIGHT):0] box_yv_next;
 	wire [$clog2(SCREEN_HEIGHT):0] box_y_trajectory;
-	wire hit_v_edge = ((box_x_trajectory) < 0) || ((box_x_trajectory) >= (SCREEN_WIDTH - BOX_WIDTH));
-	wire hit_h_edge = ((box_y_trajectory) < 0) || ((box_y_trajectory) >= (SCREEN_HEIGHT - BOX_HEIGHT));
+	wire hit_v_edge = box_x_trajectory[7];
+	wire hit_h_edge = box_y_trajectory[7];
 
 	assign box_x_trajectory = box_x + box_xv;
 	assign box_y_trajectory = box_y + box_yv;
-	assign box_x_next = ((0) > (box_x_trajectory) ? 0 : ((SCREEN_WIDTH - BOX_WIDTH) < (box_x_trajectory) ? SCREEN_WIDTH - BOX_WIDTH : box_x_trajectory));
-	assign box_y_next = ((0) > (box_y_trajectory) ? 0 : ((SCREEN_HEIGHT - BOX_HEIGHT) < (box_y_trajectory) ? SCREEN_HEIGHT - BOX_HEIGHT : box_y_trajectory));
-	assign box_xv_next = (hit_v_edge ? ~box_xv + 1 : box_xv);
-	assign box_yv_next = (hit_h_edge ? ~box_yv + 1 : box_yv);
+	assign box_x_next = box_x_trajectory;
+	assign box_y_next = box_y_trajectory;
+	assign box_xv_next = (hit_v_edge ? -box_xv : box_xv);
+	assign box_yv_next = (hit_h_edge ? -box_yv : box_yv);
 
 	wire in_box = (((box_x) <= (position_x)) && ((position_x) < ((box_x) + BOX_WIDTH))) && (((box_y) <= (position_y)) && ((position_y) < ((box_y) + BOX_HEIGHT)));
 	wire [3:0] lightness = {{3 {in_box}}, 1'b1};
