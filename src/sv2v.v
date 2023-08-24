@@ -104,11 +104,9 @@ module image (
 	assign box_y_next = ($signed(0) > $signed(box_y_trajectory) ? 0 : ($signed(SCREEN_HEIGHT - BOX_HEIGHT) < $signed(box_y_trajectory) ? SCREEN_HEIGHT - BOX_HEIGHT : box_y_trajectory));
 	always @(*) begin
 		box_xv_next = box_xv;
-		if (hit_v_edge)
-			box_xv_next = -box_xv;
 		box_yv_next = box_yv;
-		if (hit_h_edge)
-			box_yv_next = -box_yv;
+		if (hit_v_edge) box_xv_next *= -1;
+		if (hit_h_edge) box_yv_next *= -1;
 	end
 	wire in_box = (($signed(box_x) <= $unsigned(position_x)) && ($unsigned(position_x) < ($signed(box_x) + BOX_WIDTH))) && (($signed(box_y) <= $unsigned(position_y)) && ($unsigned(position_y) < ($signed(box_y) + BOX_HEIGHT)));
 	wire [3:0] lightness = {{3 {in_box}}, 1'b1};
