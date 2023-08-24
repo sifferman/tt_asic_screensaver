@@ -104,10 +104,10 @@ module image (
 	// assign hit_h_edge = ((box_y_trajectory) < 0) || ((box_y_trajectory) >= (SCREEN_HEIGHT - BOX_HEIGHT));
 	assign box_x_trajectory = box_x + box_xv;
 	assign box_y_trajectory = box_y + box_yv;
-	assign box_x_next = (200 < box_x_trajectory) ? 200 : box_x_trajectory;
-	assign box_y_next = (200 < box_y_trajectory) ? 200 : box_y_trajectory;
-	assign box_xv_next = box_xv;
-	assign box_yv_next = box_yv;
+	assign box_x_next = box_x_trajectory;
+	assign box_y_next = box_y_trajectory;
+	assign box_xv_next = (hit_v_edge ? (~box_xv + 1) : box_xv);
+	assign box_yv_next = (hit_h_edge ? (~box_yv + 1) : box_yv);
 	assign hit_v_edge = 1;
 	assign hit_h_edge = 1;
 	// assign box_x_trajectory = 0;
