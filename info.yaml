@@ -7,10 +7,10 @@ project:
 # Source files must be in ./src and you must list each source file separately
   source_files:
     - tt_um_asic_screensaver.v
-    - sv2v.v
-    # - fpga_screensaver/rtl/top.sv
-    # - fpga_screensaver/rtl/image.sv
-    # - fpga_screensaver/rtl/video_timer.sv
+    # - sv2v.v
+    - fpga_screensaver/rtl/top.sv
+    - fpga_screensaver/rtl/image.sv
+    - fpga_screensaver/rtl/video_timer.sv
   top_module:  "tt_um_asic_screensaver"      # put the name of your top module here, make it unique by prepending your github username
 
 # How many tiles your design occupies? A single tile is about 167x108 uM.
