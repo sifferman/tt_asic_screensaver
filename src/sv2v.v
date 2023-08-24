@@ -86,6 +86,7 @@ module image (
 	output reg [3:0] b;
 	localparam BOX_HEIGHT = 100;
 	localparam BOX_WIDTH = 100;
+
 	reg [$clog2(SCREEN_WIDTH):0] box_x;
 	reg [$clog2(SCREEN_WIDTH):0] box_xv;
 	wire [$clog2(SCREEN_WIDTH):0] box_x_next;
@@ -98,26 +99,24 @@ module image (
 	wire [$clog2(SCREEN_HEIGHT):0] box_y_trajectory;
 	wire hit_v_edge = ((box_x_trajectory) < 0) || ((box_x_trajectory) >= (SCREEN_WIDTH - BOX_WIDTH));
 	wire hit_h_edge = ((box_y_trajectory) < 0) || ((box_y_trajectory) >= (SCREEN_HEIGHT - BOX_HEIGHT));
+
 	assign box_x_trajectory = box_x + box_xv;
 	assign box_y_trajectory = box_y + box_yv;
 	assign box_x_next = ((0) > (box_x_trajectory) ? 0 : ((SCREEN_WIDTH - BOX_WIDTH) < (box_x_trajectory) ? SCREEN_WIDTH - BOX_WIDTH : box_x_trajectory));
 	assign box_y_next = ((0) > (box_y_trajectory) ? 0 : ((SCREEN_HEIGHT - BOX_HEIGHT) < (box_y_trajectory) ? SCREEN_HEIGHT - BOX_HEIGHT : box_y_trajectory));
 	assign box_xv_next = (hit_v_edge ? ~box_xv + 1 : box_xv);
 	assign box_yv_next = (hit_h_edge ? ~box_yv + 1 : box_yv);
+
 	wire in_box = (((box_x) <= (position_x)) && ((position_x) < ((box_x) + BOX_WIDTH))) && (((box_y) <= (position_y)) && ((position_y) < ((box_y) + BOX_HEIGHT)));
 	wire [3:0] lightness = {{3 {in_box}}, 1'b1};
 	reg [2:0] color;
 	wire [2:0] color_next;
+
 	assign color_next = (!(hit_v_edge || hit_h_edge) ? color : (color == 3'b111 ? 3'b001 : color + 1));
-	wire [4:1] sv2v_tmp_36AC7;
-	assign sv2v_tmp_36AC7 = lightness & {4 {color[0]}};
-	always @(*) r = sv2v_tmp_36AC7;
-	wire [4:1] sv2v_tmp_F249B;
-	assign sv2v_tmp_F249B = lightness & {4 {color[1]}};
-	always @(*) g = sv2v_tmp_F249B;
-	wire [4:1] sv2v_tmp_4DFFD;
-	assign sv2v_tmp_4DFFD = lightness & {4 {color[2]}};
-	always @(*) b = sv2v_tmp_4DFFD;
+	assign r = lightness & {4 {color[0]}};
+	assign g = lightness & {4 {color[1]}};
+	assign b = lightness & {4 {color[2]}};
+
 	reg [31:0] frame_prev;
 	always @(posedge clk)
 		if (rst) begin
@@ -136,6 +135,7 @@ module image (
 			frame_prev <= frame;
 			color <= color_next;
 		end
+
 endmodule
 module video_timer (
 	clk,
