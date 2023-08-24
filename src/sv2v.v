@@ -104,18 +104,18 @@ module image (
 	// assign hit_h_edge = ((box_y_trajectory) < 0) || ((box_y_trajectory) >= (SCREEN_HEIGHT - BOX_HEIGHT));
 	assign box_x_trajectory = box_x + box_xv;
 	assign box_y_trajectory = box_y + box_yv;
-	// assign box_x_next = ((0) > (box_x_trajectory) ? 0 : ((SCREEN_WIDTH - BOX_WIDTH) < (box_x_trajectory) ? SCREEN_WIDTH - BOX_WIDTH : box_x_trajectory));
-	// assign box_y_next = ((0) > (box_y_trajectory) ? 0 : ((SCREEN_HEIGHT - BOX_HEIGHT) < (box_y_trajectory) ? SCREEN_HEIGHT - BOX_HEIGHT : box_y_trajectory));
-	// assign box_xv_next = (hit_v_edge ? ~box_xv + 1 : box_xv);
-	// assign box_yv_next = (hit_h_edge ? ~box_yv + 1 : box_yv);
+	assign box_x_next = ((0) > (box_x_trajectory) ? 0 : ((SCREEN_WIDTH - BOX_WIDTH) < (box_x_trajectory) ? SCREEN_WIDTH - BOX_WIDTH : box_x_trajectory));
+	assign box_y_next = ((0) > (box_y_trajectory) ? 0 : ((SCREEN_HEIGHT - BOX_HEIGHT) < (box_y_trajectory) ? SCREEN_HEIGHT - BOX_HEIGHT : box_y_trajectory));
+	assign box_xv_next = (hit_v_edge ? ~box_xv + 1 : box_xv);
+	assign box_yv_next = (hit_h_edge ? ~box_yv + 1 : box_yv);
 	assign hit_v_edge = 1;
 	assign hit_h_edge = 1;
 	// assign box_x_trajectory = 0;
 	// assign box_y_trajectory = 0;
-	assign box_x_next = 0;
-	assign box_y_next = 0;
-	assign box_xv_next = 0;
-	assign box_yv_next = 0;
+	// assign box_x_next = 0;
+	// assign box_y_next = 0;
+	// assign box_xv_next = 0;
+	// assign box_yv_next = 0;
 
 
 	wire in_box;
