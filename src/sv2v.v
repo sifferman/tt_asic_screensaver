@@ -88,8 +88,8 @@ module image (
 	localparam BOX_WIDTH = 100;
 	reg [$clog2(SCREEN_WIDTH):0] box_x;
 	reg [$clog2(SCREEN_WIDTH):0] box_xv;
-	wire [$clog2(SCREEN_WIDTH):0] box_x_next;
-	wire [$clog2(SCREEN_WIDTH):0] box_xv_next;
+	reg [$clog2(SCREEN_WIDTH):0] box_x_next;
+	reg [$clog2(SCREEN_WIDTH):0] box_xv_next;
 	wire [$clog2(SCREEN_WIDTH):0] box_x_trajectory;
 	reg [$clog2(SCREEN_HEIGHT):0] box_y;
 	reg [$clog2(SCREEN_HEIGHT):0] box_yv;
