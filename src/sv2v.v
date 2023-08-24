@@ -100,22 +100,22 @@ module image (
 	wire hit_v_edge = box_x_trajectory[7];
 	wire hit_h_edge = box_y_trajectory[7];
 
-	assign box_x_trajectory = box_x + box_xv;
-	assign box_y_trajectory = box_y + box_yv;
-	assign box_x_next = box_x_trajectory;
-	assign box_y_next = box_y_trajectory;
-	assign box_xv_next = (hit_v_edge ? -box_xv : box_xv);
-	assign box_yv_next = (hit_h_edge ? -box_yv : box_yv);
+	assign box_x_trajectory = 0;
+	assign box_y_trajectory = 0;
+	assign box_x_next = 0;
+	assign box_y_next = 0;
+	assign box_xv_next = 0;
+	assign box_yv_next = 0;
 
-	wire in_box = (((box_x) <= (position_x)) && ((position_x) < ((box_x) + BOX_WIDTH))) && (((box_y) <= (position_y)) && ((position_y) < ((box_y) + BOX_HEIGHT)));
-	wire [3:0] lightness = {{3 {in_box}}, 1'b1};
+	wire in_box = 0;
+	wire [3:0] lightness = 0;
 	reg [2:0] color;
 	wire [2:0] color_next;
 
-	assign color_next = (!(hit_v_edge || hit_h_edge) ? color : (color == 3'b111 ? 3'b001 : color + 1));
-	assign r = lightness & {4 {color[0]}};
-	assign g = lightness & {4 {color[1]}};
-	assign b = lightness & {4 {color[2]}};
+	assign color_next = 0;
+	assign r = 0;
+	assign g = 0;
+	assign b = 0;
 
 	reg [31:0] frame_prev;
 	always @(posedge clk)
