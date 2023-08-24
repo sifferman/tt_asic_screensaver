@@ -27,35 +27,35 @@ module top (
 	assign r = (visible ? im_r : 0);
 	assign g = (visible ? im_g : 0);
 	assign b = (visible ? im_b : 0);
-	// video_timer #(
-	// 	.H_FRONT(16),
-	// 	.H_VISIBLE(640),
-	// 	.H_SYNC(96),
-	// 	.H_BACK(48),
-	// 	.V_FRONT(10),
-	// 	.V_VISIBLE(480),
-	// 	.V_SYNC(2),
-	// 	.V_BACK(33)
-	// ) vt(
-	// 	.clk(clk_25_175),
-	// 	.rst(rst),
-	// 	.hsync(hsync),
-	// 	.vsync(vsync),
-	// 	.visible(visible),
-	// 	.position_x(position_x),
-	// 	.position_x_NEXT(position_x_NEXT),
-	// 	.position_y(position_y),
-	// 	.position_y_NEXT(position_y_NEXT),
-	// 	.frame(frame)
-	// );
-	assign hsync = 0;
-	assign vsync = 0;
-	assign visible = 0;
-	assign position_x = 0;
-	assign position_x_NEXT = 0;
-	assign position_y = 0;
-	assign position_y_NEXT = 0;
-	assign frame = 0;
+	video_timer #(
+		.H_FRONT(16),
+		.H_VISIBLE(640),
+		.H_SYNC(96),
+		.H_BACK(48),
+		.V_FRONT(10),
+		.V_VISIBLE(480),
+		.V_SYNC(2),
+		.V_BACK(33)
+	) vt(
+		.clk(clk_25_175),
+		.rst(rst),
+		.hsync(hsync),
+		.vsync(vsync),
+		.visible(visible),
+		.position_x(position_x),
+		.position_x_NEXT(position_x_NEXT),
+		.position_y(position_y),
+		.position_y_NEXT(position_y_NEXT),
+		.frame(frame)
+	);
+	// assign hsync = 0;
+	// assign vsync = 0;
+	// assign visible = 0;
+	// assign position_x = 0;
+	// assign position_x_NEXT = 0;
+	// assign position_y = 0;
+	// assign position_y_NEXT = 0;
+	// assign frame = 0;
 	// image #(.SELECT(IMAGE_SELECT)) im(
 	// 	.clk(clk_25_175),
 	// 	.rst(rst),
