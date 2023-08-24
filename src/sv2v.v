@@ -102,16 +102,16 @@ module image (
 
 	// assign hit_v_edge = ((box_x_trajectory) < 0) || ((box_x_trajectory) >= (SCREEN_WIDTH - BOX_WIDTH));
 	// assign hit_h_edge = ((box_y_trajectory) < 0) || ((box_y_trajectory) >= (SCREEN_HEIGHT - BOX_HEIGHT));
-	// assign box_x_trajectory = box_x + box_xv;
-	// assign box_y_trajectory = box_y + box_yv;
+	assign box_x_trajectory = box_x + box_xv;
+	assign box_y_trajectory = box_y + box_yv;
 	// assign box_x_next = ((0) > (box_x_trajectory) ? 0 : ((SCREEN_WIDTH - BOX_WIDTH) < (box_x_trajectory) ? SCREEN_WIDTH - BOX_WIDTH : box_x_trajectory));
 	// assign box_y_next = ((0) > (box_y_trajectory) ? 0 : ((SCREEN_HEIGHT - BOX_HEIGHT) < (box_y_trajectory) ? SCREEN_HEIGHT - BOX_HEIGHT : box_y_trajectory));
 	// assign box_xv_next = (hit_v_edge ? ~box_xv + 1 : box_xv);
 	// assign box_yv_next = (hit_h_edge ? ~box_yv + 1 : box_yv);
-	assign hit_v_edge = 0;
-	assign hit_h_edge = 0;
-	assign box_x_trajectory = 0;
-	assign box_y_trajectory = 0;
+	assign hit_v_edge = 1;
+	assign hit_h_edge = 1;
+	// assign box_x_trajectory = 0;
+	// assign box_y_trajectory = 0;
 	assign box_x_next = 0;
 	assign box_y_next = 0;
 	assign box_xv_next = 0;
@@ -123,13 +123,13 @@ module image (
 	reg [2:0] color;
 	wire [2:0] color_next;
 
-	// assign in_box = (((box_x) <= (position_x)) && ((position_x) < ((box_x) + BOX_WIDTH))) && (((box_y) <= (position_y)) && ((position_y) < ((box_y) + BOX_HEIGHT)));
+	assign in_box = (((box_x) <= (position_x)) && ((position_x) < ((box_x) + BOX_WIDTH))) && (((box_y) <= (position_y)) && ((position_y) < ((box_y) + BOX_HEIGHT)));
 	assign lightness = {{3 {in_box}}, 1'b1};
 	assign color_next = (!(hit_v_edge || hit_h_edge) ? color : (color == 3'b111 ? 3'b001 : color + 1));
 	assign r = lightness & {4 {color[0]}};
 	assign g = lightness & {4 {color[1]}};
 	assign b = lightness & {4 {color[2]}};
-	assign in_box = 1;
+	// assign in_box = 1;
 	// assign lightness = 0;
 	// assign color_next = 0;
 	// assign r = 0;
