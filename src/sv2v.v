@@ -86,7 +86,6 @@ module image (
 	output reg [3:0] b;
 	localparam BOX_HEIGHT = 100;
 	localparam BOX_WIDTH = 100;
-
 	reg [$clog2(SCREEN_WIDTH):0] box_x;
 	reg [$clog2(SCREEN_WIDTH):0] box_xv;
 	wire [$clog2(SCREEN_WIDTH):0] box_x_next;
@@ -97,45 +96,22 @@ module image (
 	wire [$clog2(SCREEN_HEIGHT):0] box_y_next;
 	wire [$clog2(SCREEN_HEIGHT):0] box_yv_next;
 	wire [$clog2(SCREEN_HEIGHT):0] box_y_trajectory;
-	wire hit_v_edge;
-	wire hit_h_edge;
-
-	// assign hit_v_edge = ((box_x_trajectory) < 0) || ((box_x_trajectory) >= (SCREEN_WIDTH - BOX_WIDTH));
-	// assign hit_h_edge = ((box_y_trajectory) < 0) || ((box_y_trajectory) >= (SCREEN_HEIGHT - BOX_HEIGHT));
+	wire hit_v_edge = ($signed(box_x_trajectory) < 0) || ($signed(box_x_trajectory) >= (SCREEN_WIDTH - BOX_WIDTH));
+	wire hit_h_edge = ($signed(box_y_trajectory) < 0) || ($signed(box_y_trajectory) >= (SCREEN_HEIGHT - BOX_HEIGHT));
 	assign box_x_trajectory = box_x + box_xv;
 	assign box_y_trajectory = box_y + box_yv;
-	assign box_x_next = box_x_trajectory;
-	assign box_y_next = box_y_trajectory;
-	assign box_xv_next = (hit_v_edge ? (~box_xv + 1) : box_xv);
-	assign box_yv_next = (hit_h_edge ? (~box_yv + 1) : box_yv);
-	assign hit_v_edge = 1;
-	assign hit_h_edge = 1;
-	// assign box_x_trajectory = 0;
-	// assign box_y_trajectory = 0;
-	// assign box_x_next = 0;
-	// assign box_y_next = 0;
-	// assign box_xv_next = 0;
-	// assign box_yv_next = 0;
-
-
-	wire in_box;
-	wire [3:0] lightness;
+	assign box_x_next = ($signed(0) > $signed(box_x_trajectory) ? 0 : ($signed(SCREEN_WIDTH - BOX_WIDTH) < $signed(box_x_trajectory) ? SCREEN_WIDTH - BOX_WIDTH : box_x_trajectory));
+	assign box_y_next = ($signed(0) > $signed(box_y_trajectory) ? 0 : ($signed(SCREEN_HEIGHT - BOX_HEIGHT) < $signed(box_y_trajectory) ? SCREEN_HEIGHT - BOX_HEIGHT : box_y_trajectory));
+	assign box_xv_next = box_xv;
+	assign box_yv_next = box_yv;
+	wire in_box = (($signed(box_x) <= $unsigned(position_x)) && ($unsigned(position_x) < ($signed(box_x) + BOX_WIDTH))) && (($signed(box_y) <= $unsigned(position_y)) && ($unsigned(position_y) < ($signed(box_y) + BOX_HEIGHT)));
+	wire [3:0] lightness = {{3 {in_box}}, 1'b1};
 	reg [2:0] color;
 	wire [2:0] color_next;
-
-	assign in_box = (((box_x) <= (position_x)) && ((position_x) < ((box_x) + BOX_WIDTH))) && (((box_y) <= (position_y)) && ((position_y) < ((box_y) + BOX_HEIGHT)));
-	assign lightness = {{3 {in_box}}, 1'b1};
 	assign color_next = (!(hit_v_edge || hit_h_edge) ? color : (color == 3'b111 ? 3'b001 : color + 1));
-	assign r = lightness & {4 {color[0]}};
-	assign g = lightness & {4 {color[1]}};
-	assign b = lightness & {4 {color[2]}};
-	// assign in_box = 1;
-	// assign lightness = 0;
-	// assign color_next = 0;
-	// assign r = 0;
-	// assign g = 0;
-	// assign b = 0;
-
+	assign r = lightness & {4{color[0]}};
+	assign g = lightness & {4{color[1]}};
+	assign b = lightness & {4{color[2]}};
 	reg [31:0] frame_prev;
 	always @(posedge clk)
 		if (rst) begin
@@ -154,7 +130,6 @@ module image (
 			frame_prev <= frame;
 			color <= color_next;
 		end
-
 endmodule
 module video_timer (
 	clk,
